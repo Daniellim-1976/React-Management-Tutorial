@@ -16,7 +16,23 @@ class CustomerAdd extends React.Component{
 
     handleFormSubmit = (e) => {
         e.preventDefault()
-        this
+        this.addCustomer()
+            .then((response) => {
+                console.log(response.data);
+            })
+    }
+
+    handleFileChange = (e) =>{
+        this.setState({
+            file:e.target.files[0],
+            fileName:e.target.value
+        })
+    }
+    
+    handleValueChange = (e) =>{
+        let nextState = {};
+        nextState[e.target.name] = e.target.value;
+        this.setState(nextState);
     }
 
     addCustomer = () => {
@@ -39,14 +55,17 @@ class CustomerAdd extends React.Component{
     render(){
         return (
             <form onSubmit={this.handleFormSubmit}>
-                <h1>°í°´ Ãß°¡</h1>
-                ÇÁ·ÎÇÊ ÀÌ¹ÌÁö:<input type="file" name='file' file={this.state.fileName} value={this.state.fileName} onChange={this.handleFileChange}  /> <br/>
-                ÀÌ¸§: <input type="text" name="userName" value={this.state.userName}  onChange={this.handleValueChange} /><br/>
-                »ı³â¿ùÀÏ:<input type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange}/><br/>
-                ¼ºº°: <input type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange}/><br/>
-                Á÷¾÷: <input type="text" name="job" value={this.state.job} onChange={this.handleValueChange}/><br/>
-                <button type="submit">Ãß°¡ÇÏ±â</button>
+                <h1>ê³ ê°ì¶”ê°€</h1>
+                í”„ë¡œí•„ ì´ë¯¸ì§€:<input type="file" name='file' file={this.state.file} value={this.state.fileName} onChange={this.handleFileChange}  /> <br/>
+                ì´ë¦„: <input type="text" name="userName" value={this.state.userName}  onChange={this.handleValueChange} /><br/>
+                ìƒë…„ì›”ì¼:<input type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange}/><br/>
+                ì„±ë³„: <input type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange}/><br/>
+                ì§ì—…: <input type="text" name="job" value={this.state.job} onChange={this.handleValueChange}/><br/>
+                <button type="submit">ì¶”ê°€í•˜ê¸°</button>
             </form>
         )
     }
 }
+
+
+export default CustomerAdd;
