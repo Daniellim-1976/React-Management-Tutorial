@@ -14,22 +14,38 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = theme => ({
   root: {
     width:'100%',
-    marginTop:theme.spacing(3),
+    marginTop:theme.spacing.unit *3,
     overflowX:"auto"
   },
   table:{
     minWidth:1080
   },
   progress:{
-    margin:theme.spacing(2)
+    margin:theme.spacing.unit*2
   }
 })
 
 class App extends Component{
-  state = {
-    customers:"",
-    completed:0
-  }
+  
+ constructor(props){
+   super(props);
+   this.state ={
+     customers:'',
+     completed:0
+   }
+   this.stateRefresh = this.stateRefresh.bind(this);
+ }
+
+ stateRefresh = () => {
+    this.setState({
+      customers:'',
+      completed:0
+    });
+  
+    this.callApi()
+      .then(res => this.setState({customers:res}))
+      .catch(err => console.log(err));
+ }
 
   componentDidMount(){
    this.timer = setInterval(this.progress,20);
@@ -51,43 +67,42 @@ class App extends Component{
     const {classes} = this.props;
     return (
       <div>
-        <Paper className={classes.root}>
-            <Table className={classes.table}>
-              <TableHead>
+      <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Î≤àÌò∏</TableCell>
+                <TableCell>?ù¥ÎØ∏Ï??</TableCell>
+                <TableCell>?ù¥Î¶?</TableCell>
+                <TableCell>?Éù?ÖÑ?õî?ùº</TableCell>
+                <TableCell>?Ñ±Î≥?</TableCell>
+                <TableCell>ÏßÅÏóÖ</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.customers ? this.state.customers.map(c => {
+                return (
+                <Customer 
+                  key={c.id} 
+                  id={c.id} 
+                  image={c.image} 
+                  name={c.name} 
+                  birthday={c.birthday} 
+                  gender={c.gender} 
+                  job={c.job} 
+                />
+                );
+                }) : 
                 <TableRow>
-                  <TableCell>Î≤àÌò∏</TableCell>
-                  <TableCell>Ïù¥ÎØ∏ÏßÄ</TableCell>
-                  <TableCell>Ïù¥Î¶Ñ</TableCell>
-                  <TableCell>ÏÉùÎÖÑÏõîÏùº</TableCell>
-                  <TableCell>ÏÑ±Î≥Ñ</TableCell>
-                  <TableCell>ÏßÅÏóÖ</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.customers ? this.state.customers.map(c => {
-                  return (
-                  <Customer 
-                    key={c.id} 
-                    id={c.id} 
-                    image={c.image} 
-                    name={c.name} 
-                    birthday={c.birthday} 
-                    gender={c.gender} 
-                    job={c.job} 
-                  />
-                  
-                  );
-                  }) : 
-                  <TableRow>
-                    <TableCell colSpan="6"  align="center">
-                      <CircularProgress className={classes.progress}  variant="determinate" value={this.state.completed}/>
-                    </TableCell>
-                  </TableRow> 
-                  }
-              </TableBody>
-            </Table>
-        </Paper>
-        <CustomerAdd/>
+                  <TableCell colSpan="6"  align="center">
+                    <CircularProgress className={classes.progress}  variant="determinate" value={this.state.completed}/>
+                  </TableCell>
+                </TableRow> 
+                }
+            </TableBody>
+          </Table>
+      </Paper>
+      <CustomerAdd stateRefresh={this.stateRefresh} />
       </div>
     );
   }
