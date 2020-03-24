@@ -72,27 +72,18 @@ class App extends Component{
             <TableHead>
               <TableRow>
                 <TableCell>ë²ˆí˜¸</TableCell>
-                <TableCell>?´ë¯¸ì??</TableCell>
-                <TableCell>?´ë¦?</TableCell>
-                <TableCell>?ƒ?…„?›”?¼</TableCell>
-                <TableCell>?„±ë³?</TableCell>
+                <TableCell>ì´ë¯¸ì§€</TableCell>
+                <TableCell>ì´ë¦„</TableCell>
+                <TableCell>ìƒë…„ì›”ì¼</TableCell>
+                <TableCell>ì„±ë³„</TableCell>
                 <TableCell>ì§ì—…</TableCell>
+                <TableCell>ì„¤ì •</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {this.state.customers ? this.state.customers.map(c => {
-                return (
-                <Customer 
-                  key={c.id} 
-                  id={c.id} 
-                  image={c.image} 
-                  name={c.name} 
-                  birthday={c.birthday} 
-                  gender={c.gender} 
-                  job={c.job} 
-                />
-                );
-                }) : 
+                return ( <Customer stateRefresh={this.stateRefresh} key={c.id}  id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />);
+              }) : 
                 <TableRow>
                   <TableCell colSpan="6"  align="center">
                     <CircularProgress className={classes.progress}  variant="determinate" value={this.state.completed}/>
